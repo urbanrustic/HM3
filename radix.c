@@ -26,18 +26,18 @@ int radixSort(int array[], int length) {
         for (i = 0; i < length; i++) {
             quantity[(array[i] / numeric) % 10]++;
         }
-        // printArray(bucket, 10);
-        // printf("\n");
+        printArray(quantity, 10);
+        printf("\n");
         for (i = 1; i < 10; i++) {
             quantity[i] += quantity[i - 1];
         }
-        // printArray(bucket, 10);
-        // printf("\n");
+        printArray(quantity, 10);
+        printf("\n");
         for (i = length - 1; i >= 0; i--) {
             temp_sort[--quantity[(array[i] / numeric) % 10]] = array[i];
         }
-        // printArray(semiSorted, length);
-        // printf("\n");
+        printArray(temp_sort, length);
+        printf("\n");
         for (i = 0; i < length; i++) {
             array[i] = temp_sort[i];
         }
