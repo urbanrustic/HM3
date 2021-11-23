@@ -1,4 +1,4 @@
-TARGET = ./vladcool.out
+TARGET = ./key.out
 INCLUDE = Resourses
 SRCS = program/main.c \
 		program/radix.c\
