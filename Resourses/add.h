@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-int bubbleSort(int array[], int length);
-int radixSort(int array[], int length);
-int printArray(int array[], int length);
+int bubbleSort(int *array, int length);
+int radixSort(int *array, int length);
+int printArray(int *array, int length);
 #endif //add_h

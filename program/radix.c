@@ -1,4 +1,5 @@
 #include "add.h"
+#define STEP 10
 
 
 int find_largest(int array[], int length) {
@@ -42,7 +43,7 @@ int radixSort(int array[], int length) {
         for (i = 0; i < length; i++) {
             array[i] = temp_sort[i];
         }
-        numeric *= 10;
+        numeric *= STEP;
     }
 
     end = clock();
