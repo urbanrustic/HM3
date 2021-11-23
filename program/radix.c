@@ -15,7 +15,8 @@ int find_largest(int array[], int length) {
 
 int radixSort(int array[], int length) {
 
-    int i, temp_sort[length], numeric = 1;
+    int i, numeric = 1;
+    int *temp_sort = (int*)malloc(sizeof(int)*length); 
     int largestNum = find_largest(array, length);
 
     clock_t start, end;
@@ -26,18 +27,18 @@ int radixSort(int array[], int length) {
         for (i = 0; i < length; i++) {
             quantity[(array[i] / numeric) % 10]++;
         }
-        printArray(quantity, 10);
-        printf("\n");
+        // printArray(quantity, 10);
+        // printf("\n");
         for (i = 1; i < 10; i++) {
             quantity[i] += quantity[i - 1];
         }
-        printArray(quantity, 10);
-        printf("\n");
+        // printArray(quantity, 10);
+        // printf("\n");
         for (i = length - 1; i >= 0; i--) {
             temp_sort[--quantity[(array[i] / numeric) % 10]] = array[i];
         }
-        printArray(temp_sort, length);
-        printf("\n");
+        // printArray(temp_sort, length);
+        // printf("\n");
         for (i = 0; i < length; i++) {
             array[i] = temp_sort[i];
         }
@@ -45,6 +46,7 @@ int radixSort(int array[], int length) {
     }
 
     end = clock();
+    free(temp_sort);
     printf("Время затраченное на сортировку: %lf\n", (double)(end-start)/(CLOCKS_PER_SEC));
 
     printArray(array, length);
