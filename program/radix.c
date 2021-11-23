@@ -26,7 +26,7 @@ int radixSort(int array[], int length) {
     while (largestNum / numeric > 0) {
         int quantity[10] = { 0 };
         for (i = 0; i < length; i++) {
-            quantity[(array[i] / numeric) % 10]++;
+            quantity[(array[i] / numeric) % STEP]++;
         }
         // printArray(quantity, 10);
         // printf("\n");
