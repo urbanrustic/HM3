@@ -36,7 +36,7 @@ int radixSort(int array[], int length) {
         // printArray(quantity, 10);
         // printf("\n");
         for (i = length - 1; i >= 0; i--) {
-            temp_sort[--quantity[(array[i] / numeric) % 10]] = array[i];
+            temp_sort[--quantity[(array[i] / numeric) % STEP]] = array[i];
         }
         // printArray(temp_sort, length);
         // printf("\n");
