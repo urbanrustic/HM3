@@ -2,7 +2,7 @@
 #define STEP 10
 
 
-int find_largest(int array[], int length) {
+int find_largest(int *array, int length) {
 
     int numb = INT_MIN;
     for (int i = 0; i < length; i++) {
@@ -14,7 +14,7 @@ int find_largest(int array[], int length) {
     return numb;
 }
 
-int radixSort(int array[], int length) {
+int radixSort(int *array, int length) {
 
     int i, numeric = 1;
     int *temp_sort = (int*)malloc(sizeof(int)*length); 
@@ -47,9 +47,8 @@ int radixSort(int array[], int length) {
     }
 
     end = clock();
-    free(temp_sort);
     printf("Время затраченное на сортировку: %lf\n", (double)(end-start)/(CLOCKS_PER_SEC));
-
+    free(temp_sort);
     printArray(array, length);
 
     return 0;

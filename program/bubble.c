@@ -2,7 +2,7 @@
 #define SWAP(type, a, b) type tmp = a; a = b; b = tmp;
 
 
-int printArray(int array[], int length) {
+int printArray(int *array, int length) {
 
     if (length > 31) {
         return 0;
@@ -15,7 +15,7 @@ int printArray(int array[], int length) {
     return 0;
 }
 
-int bubbleSort(int array[], int length) {
+int bubbleSort(int *array, int length) {
 
     clock_t start, end;
     start = clock();

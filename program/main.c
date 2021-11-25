@@ -5,6 +5,7 @@ int main() {
 
     int *a = (int*)malloc(1*sizeof(int));
     int n = 0;
+    
     printf("%s", "Введите длину масива: ");
     scanf("%d", &n);
     a = (int*)realloc(a, n*sizeof(int));
