@@ -11,6 +11,23 @@
 <h4>Подключаемый файл add.h</h4>
 
 
+```c
+#ifndef add_h
+#define add_h
+
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int bubbleSort(int *array, int length);
+int radixSort(int *array, int length);
+int printArray(int *array, int length);
+
+#endif //add_h
+```
+
+
 <h4>Функция для поиска наибольшего числа </h4>
 
 
