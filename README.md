@@ -5,152 +5,164 @@
 Провести тесты сравнить скорость работы.
 <i>Выволнить задание на языке программирования Си(С).</i>
 <h2 align="center">Описание</h2>
-Программа считывает данные из файла записывает их в массив. Определяется количество рёбер.
-
+<p>Поразрядная сортировка —  исходно предназначен для сортировки целых чисел, записанных цифрами. Но так как в памяти компьютеров любая информация записывается целыми числами, алгоритм пригоден для сортировки любых объектов, запись которых можно поделить на «разряды», содержащие сравнимые значения. При этом разряды могут обрабатываться в противоположных направлениях - от младших к старшим или наоборот.</p>
+<h5>Алгоритм:</h5>
+<p>Для начала находится самое большое число в данном массиве для определения количества разрядов. Далее  сравнение производится поразрядно: сначала сравниваются значения малого разряда (у числа 567 это будет 7) , и элементы возвращаются  в основной массив в том порядке, затем сравниваются значения следующего разряда (у числа 567 это будет 6), соседнего, и элементы либо упорядочиваются по результатам сравнения значений этого разряда внутри образованных на предыдущем проходе групп, либо переупорядочиваются в целом, но сохраняя относительный порядок в массиве, достигнутый при предыдущей сортировке. И эта операция проводится для всех разрядов.</p>
+<h4>Подключаемый файл add.h</h4>
 ```c
-    while ((c = fgetc(fp1))!=EOF) {
-        graf[i] = c;
-        //количество рёбер
-        if (graf[i] == '-') {
-            edges++;
-        }
-        graf = (char*)realloc(graf, (++i+1)*sizeof(char));
-        if (graf == NULL) {
-            exit -1;
-        }
-    }
+#ifndef add_h
+#define add_h
+
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int bubbleSort(int *array, int length);
+int radixSort(int *array, int length);
+int printArray(int *array, int length);
+
+#endif //add_h
 ```
-Ищем максимальную вершину в графе.
+
+<h4>Функция для поиска наибольшего числа </h4>
 ```c
-    int count = 0;
-    int j = 0;
-    while (graf[j]) {
-        while (graf[j] && graf[j]!='-' && graf[j]!='\n' && isdigit(graf[j])) {
-            count = graf[j]-'0' + count*10;
-            j++;
-        }
-        if (count > apex) {
-            apex = count;
-        }
-        count = 0;
-        j++;
-    }
-```
-Заполняем файл на gv, для вывода графа.
-```c
-    fprintf(fp2, "%s", "graph {\n\t");
-    for (int j = 0; j < i; j++) {
-        fputc(graf[j], fp2);
-        if (graf[j] == '\n') {
-            fputc('\t', fp2);
-        }
-        if (graf[j] == '-') {
-            fputc('-', fp2);
-        }
-        
-    }
-    fprintf(fp2,"%s","\n}");
-```
-Определяем является ли граф деревом.
-```c
-    if ((apex-edges == 1) && matr(apex, fp1)) {
-        printf("%s\n", "Дерево");
-    }
-    else {
-        printf("%s\n","Не является деревом");
-    }
-```
-Выводим на экран картинку графа.
-```c
-    system("dot -Tpng im.gv -o '1.png'");
-    system("wslview 1.png");
-```
-Создания матрицы смежности из считываемого файла.
-```c
-    int ar[apex+1][apex+1];
-    for (int i = 0; i < apex+1; i++) {
-        for (int j = 0; j < apex+1; j++) {
-            ar[i][j] = 0;
-        }   
-    }
+    #include "add.h"
+    #define STEP 10
 
-    int fl1 = 0, fl2 = 0;
-    int v = 0, k = 0;
-    char c;
-    //Возвращение к началу файла
-    rewind(fp1);
 
-    while ((c = fgetc(fp1))!=EOF) {
-        if (v && k && fl1 && fl2) {
-            ar[v][k] = 1;
-            ar[k][v] = 1;
-            fl1 = 0;
-            fl2 = 0;
-            v = 0;
-            k = 0;
-        }
+int find_largest(int *array, int length) {
 
-        if (c == '\n') {
-            fl2 = 1;
-        }
-        if (c == '-') {
-            fl1 = 1;
-        }
-        if (isdigit(c) && fl1 && !fl2) {
-            k = c-'0' + k*10;
-        }
-        else if (isdigit(c)) {
-            v = c-'0' + v*10;
+    int numb = INT_MIN;
+    for (int i = 0; i < length; i++) {
+        if (array[i] > numb) {
+            numb = array[i];
         }
     }
 
-    if (v && k && fl1) {
-            ar[v][k] = 1;
-            ar[k][v] = 1;
-            fl1 = 0;
-            v = 0;
-            k = 0;
-    }  
-```
-В функцию DFC(Поиск связанных рёбер в графе) Поставляем указатель на первый символ в матрице. Определяем сколько вершин было посещено после функции и сравниваем количество посещённых вершин с количеством вершин.
-```c
-//Указатель на первый символ для матрицы смежности
-    int *arr = &ar[0][0];
-    int visited[apex+1];
-    for (int i = 0; i < apex+1; i++) {
-        visited[i] = 0;
-    }
-
-    DFC(apex, apex+1, arr, visited);
-
-    int flag = 0;
-    for (int i = 1; i < apex+1; i++) {
-        if (visited[i] == 1) {
-            flag++;
-        }
-    }
-
-    if (flag == apex) {
-        return 1;
-    }
-    else {
-        return 0;
-    }
-```
-Функция для определения связанных вершин в графе.
-```c
-void DFC(int param, int length, int *arr, int *visited) {
-
-    if (visited[param]) {
-        return;
-    }
-    visited[param] = 1;
-    for (int i = 1; i < length; i++) {
-        if ((visited[i] == 0) && (arr[param*length + i] == 1)) {
-            DFC(i, length, arr, visited);
-        }
-        
-    }
+    return numb;
 }
 ```
+<h4>Представление поразрядной сортировки</h4>
+```c
+int radixSort(int *array, int length) {
+
+    int i, numeric = 1;
+    int *temp_sort = (int*)malloc(sizeof(int)*length); 
+    int largestNum = find_largest(array, length);
+
+    clock_t start, end;
+    start = clock();
+
+    while (largestNum / numeric > 0) {
+        int quantity[10] = { 0 };
+        for (i = 0; i < length; i++) {
+            quantity[(array[i] / numeric) % STEP]++;
+        }
+        // printArray(quantity, 10);
+        // printf("\n");
+        for (i = 1; i < 10; i++) {
+            quantity[i] += quantity[i - 1];
+        }
+        // printArray(quantity, 10);
+        // printf("\n");
+        for (i = length - 1; i >= 0; i--) {
+            temp_sort[--quantity[(array[i] / numeric) % STEP]] = array[i];
+        }
+        // printArray(temp_sort, length);
+        // printf("\n");
+        for (i = 0; i < length; i++) {
+            array[i] = temp_sort[i];
+        }
+        numeric *= STEP;
+    }
+
+    end = clock();
+    printf("Время затраченное на сортировку: %lf\n", (double)(end-start)/(CLOCKS_PER_SEC));
+    free(temp_sort);
+    printArray(array, length);
+
+    return 0;
+}
+```
+![1024](https://user-images.githubusercontent.com/81951508/143544927-b922e4ed-79bb-4fb9-bcf6-c1fe0918f20c.jpeg)
+
+<p>Пузырьковая сортировка одна из самых простейших сортировок</p>
+
+<p>Осуществляется многократный прогон по массиву - сначала от первого до последнего элемента, потом от первого до предпоследнего, потом от первого до третьего с конца и т.д. При прогоне сравниваются соседние элементы. Если они не упорядочены относительно друг друга, то меняются местами. В результате при каждом прогоне в конец текущего подмассива всплывает наибольший (наименьший) элемент.
+</p>
+<h4>Представление пузырьковой сортировки</h4>
+```c
+#include "add.h"
+#define SWAP(type, a, b) type tmp = a; a = b; b = tmp;
+
+
+int bubbleSort(int *array, int length) {
+
+    clock_t start, end;
+    start = clock();
+
+    for (int i = 0; i < length; i++) {
+        for (int j = 0; j < length; j++) {
+            if (array[i] < array[j]) {
+                SWAP(int, array[i], array[j]);
+            }
+        }
+    }
+
+    end = clock();
+    printf("Время затраченное на сортировку: %lf\n", (double)(end-start)/(CLOCKS_PER_SEC));
+
+    printArray(array, length);
+
+    return 0;
+}
+```
+![sortirovka2](https://user-images.githubusercontent.com/81951508/143545978-95f6014e-79e7-405b-914f-99dd815147b5.jpg)
+
+<h4>Основной файл</h4>
+```c
+#include "add.h"
+
+
+int main() {
+
+    int *a = (int*)malloc(1*sizeof(int));
+    int n = 0;
+    
+    printf("%s", "Введите длину масива: ");
+    scanf("%d", &n);
+    a = (int*)realloc(a, n*sizeof(int));
+
+    int max_numb;
+    printf("%s", "Введите максимальное число в массиве: ");
+    scanf("%d", &max_numb);
+
+    for (int i = 0; i < n; i++) {
+        a[i] = rand()%(max_numb + 1);
+    }
+    
+    printf("%s\n", "Массив сгенерирован");
+    printArray(a, n);
+
+    printf("%s", "Выберите метод сортировки массива( 1- Пузурьком, 2- Поразрядная ): ");
+    int method_of_sort = 0;
+    scanf("%d", &method_of_sort);
+    switch (method_of_sort) {
+    case 1:
+        bubbleSort(a, n);
+        break;
+    case 2:
+        radixSort(a, n);
+        break;
+    default:
+        printf("%s\n", "Вы не выбрали не один из доступных методов сортировки...");
+        break;
+    }
+
+    free(a);
+    return 0;
+}
+```
+
 <h3 align="center">Для компиляции программы ввести make. После ввести либо make test либо ./key.out</h3>
