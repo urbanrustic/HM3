@@ -24,22 +24,19 @@ int radixSort(int *array, int length) {
     start = clock();
 
     while (largestNum / numeric > 0) {
-        int quantity[10] = { 0 };
+        int quantity[10] = { 0 }; // 0, 1, 2, 4, 5, 6, 7, 8, 9
         for (i = 0; i < length; i++) {
             quantity[(array[i] / numeric) % STEP]++;
         }
-        // printArray(quantity, 10);
-        // printf("\n");
+        printArray(quantity, 10);
         for (i = 1; i < 10; i++) {
             quantity[i] += quantity[i - 1];
         }
-        // printArray(quantity, 10);
-        // printf("\n");
+        printArray(quantity, 10);
         for (i = length - 1; i >= 0; i--) {
             temp_sort[--quantity[(array[i] / numeric) % STEP]] = array[i];
         }
-        // printArray(temp_sort, length);
-        // printf("\n");
+        printArray(temp_sort, length);
         for (i = 0; i < length; i++) {
             array[i] = temp_sort[i];
         }
