@@ -13,8 +13,9 @@
 
 <h4>Функция для поиска наибольшего числа </h4>
 ```c
-    #include "add.h"
-    #define STEP 10
+
+#include "add.h"
+#define STEP 10
 
 
 int find_largest(int *array, int length) {
@@ -28,6 +29,7 @@ int find_largest(int *array, int length) {
 
     return numb;
 }
+
 ```
 <h4>Представление поразрядной сортировки</h4>
 ```c
