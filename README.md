@@ -12,6 +12,7 @@
 
 
 ```c
+
 #ifndef add_h
 #define add_h
 
@@ -70,18 +71,15 @@ int radixSort(int *array, int length) {
         for (i = 0; i < length; i++) {
             quantity[(array[i] / numeric) % STEP]++;
         }
-        // printArray(quantity, 10);
-        // printf("\n");
+
         for (i = 1; i < 10; i++) {
             quantity[i] += quantity[i - 1];
         }
-        // printArray(quantity, 10);
-        // printf("\n");
+
         for (i = length - 1; i >= 0; i--) {
             temp_sort[--quantity[(array[i] / numeric) % STEP]] = array[i];
         }
-        // printArray(temp_sort, length);
-        // printf("\n");
+
         for (i = 0; i < length; i++) {
             array[i] = temp_sort[i];
         }
