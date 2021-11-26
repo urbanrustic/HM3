@@ -1,7 +1,7 @@
 #include "add.h"
 
 
-int main() {
+int main(void) {
 
     int *a = (int*)malloc(1*sizeof(int));
     int n = 0;
