@@ -12,6 +12,8 @@
 
 
 <h4>Функция для поиска наибольшего числа </h4>
+
+
 ```c
 
 #include "add.h"
@@ -31,7 +33,11 @@ int find_largest(int *array, int length) {
 }
 
 ```
+
+
 <h4>Представление поразрядной сортировки</h4>
+
+
 ```c
 int radixSort(int *array, int length) {
 
